@@ -41,7 +41,7 @@ def model_factory(kind: str) -> nn.Module:
     if kind == 'classification':
         return ImageNetClassifier()
     elif kind == 'detection':
-        raise ValueError()
+        raise NotImplementedError()
     else:
         raise ValueError()
 
