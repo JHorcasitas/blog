@@ -1,1 +1,5 @@
-PyYAML==5.3.1
+PyYAML
+pandas
+jupyter
+matplotlib
+torchsummary
