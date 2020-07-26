@@ -3,3 +3,4 @@ __pycache__
 .ipynb_checkpoints
 .winenv-3.7
 *.log
+todo.md
