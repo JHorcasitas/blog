@@ -6,21 +6,8 @@ from PIL import Image
 from numpy import ndarray
 
 from torch.utils.data import Dataset
-from torchvision.datasets import ImageFolder
 
 from ImageNet import config
-
-
-class DatasetFactory:
-
-    @staticmethod
-    def get_dataset(split: str) -> Dataset:
-        if split == 'train':
-            return ImageFolder()
-        elif split == 'val':
-            pass
-        else:
-            raise ValueError()
 
 
 def read_data(kind: str) -> List[namedtuple]:
@@ -41,8 +28,8 @@ def read_data(kind: str) -> List[namedtuple]:
 class ImageNetDataset(Dataset):
     """Load images from ImageNet dataset.
 
-    :param root: Directory containing the dataset.
-    :param kind: One of {train, dev}. Defines which dataset to use.
+    :param kind: Either 'train' or 'dev'.
+    :param transform: Transformation to apply to the sample.
     """
     def __init__(self,
                  kind: str,
