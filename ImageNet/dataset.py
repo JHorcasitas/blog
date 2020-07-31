@@ -12,7 +12,7 @@ from ImageNet import config
 
 def read_data(kind: str) -> List[namedtuple]:
     records = []
-    fpath = config.train_data if kind == 'train' else config.dev_data
+    fpath = config.train_data_path if kind == 'train' else config.dev_data_path
     Record = namedtuple('Record', ['fname', 'id', 'label', 'class_name'])
     with open(fpath, 'rt') as f:
         for line in f:
@@ -44,7 +44,7 @@ class ImageNetDataset(Dataset):
         return len(self.img_paths)
 
     def __getitem__(self, index: int) -> Tuple[ndarray, ndarray]:
-        img = Image.open(self.img_paths[index])
+        img = Image.open(self.img_paths[index]).convert('RGB')
         label = self.labels[index]
 
         if self.transform is not None:
