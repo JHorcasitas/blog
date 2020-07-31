@@ -9,8 +9,8 @@ train_path = r'E:\ILSVRC\Data\CLS-LOC\train'
 dev_path = r'E:\ILSVRC\Data\CLS-LOC\dev'
 
 # Annotations
-train_data = r'C:\Users\artur\Desktop\artur\blog\annotations\train_labels.txt'
-dev_data = r'C:\Users\artur\Desktop\artur\blog\annotations\dev_labels.txt'
+train_data = r'annotations\train_labels.txt'
+dev_data = r'annotations\dev_labels.txt'
 
 
 mean = np.array([0.485, 0.456, 0.406])
