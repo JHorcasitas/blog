@@ -1,5 +1,4 @@
 import logging
-from typing import Dict
 from collections import defaultdict
 
 from torch import Tensor
@@ -11,21 +10,21 @@ class MetricTracker:
     """Keep track of TP, FP, FN and compute some aggregation functions on
     them."""
 
-    def __init__(self, class_names: Dict[int, str]) -> None:
+    def __init__(self) -> None:
         index_list, class_list = [], []
         with open(map_data_path, 'rt') as f:
             for line in f:
                 line = line.strip('\n').split()
-                index_list.append(line[1])
+                index_list.append(int(line[1]))
                 class_list.append(line[2])
         self.index_class_map = dict(zip(index_list, class_list))
-        self.num_classes = len(self.index_class_ma)
+        self.num_classes = len(self.index_class_map)
         self.reset()
 
     @property
     def precision(self):
         precision = {}
-        for k, v in self.metrics:
+        for k, v in self.metrics.items():
             try:
                 precision[k] = v['TP'] / (v['TP'] + v['FP'])
             except ZeroDivisionError:
@@ -35,7 +34,7 @@ class MetricTracker:
     @property
     def recall(self):
         precision = {}
-        for k, v in self.metrics:
+        for k, v in self.metrics.items():
             try:
                 precision[k] = v['TP'] / (v['TP'] + v['FN'])
             except ZeroDivisionError:
@@ -66,14 +65,14 @@ class MetricTracker:
         """
         for i in range(len(pred)):
             if target[i] == pred[i]:
-                self.metrics[target[i]]['TP'] += 1
+                self.metrics[target[i].item()]['TP'] += 1
             else:
-                self.metrics[pred[i]]['FP'] += 1
-                self.metrics[target[i]]['FN'] += 1
+                self.metrics[pred[i].item()]['FP'] += 1
+                self.metrics[target[i].item()]['FN'] += 1
 
     def log_metrics(self):
-        t1, p, r = self.top_1_score, self.precision, self.recall
+        p, r = self.precision, self.recall
         for i in range(0, self.num_classes):
-            message = 'Class: {}, Precision: {}, Recall: {}, F1: {}'
-            class_name = self.index_class_map[i]
-            logging.info(message.format(class_name, p[i], r[i], t1[i]))
+            message = 'Class: {}, Precision: {}, Recall: {}'
+            logging.info(message.format(self.index_class_map[i], p[i], r[i]))
+        logging.info(f'T1 score: {self.top_1_score}')
