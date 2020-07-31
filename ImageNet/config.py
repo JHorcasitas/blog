@@ -1,7 +1,7 @@
 import numpy as np
 from torchvision import transforms
 
-from ImageNet.data_transform import Compose, LabelGuard, LabelToArray
+from ImageNet.data_transform import Compose, LabelGuard, LabelToTensor
 
 
 # Datasets path
@@ -23,7 +23,7 @@ default_transform = Compose([
     LabelGuard(transforms.RandomCrop(224)),
     LabelGuard(transforms.ToTensor()),
     LabelGuard(transforms.Normalize(mean, std)),
-    LabelToArray()
+    LabelToTensor()
 ])
 
 # The inverse transform only takes an image as input
