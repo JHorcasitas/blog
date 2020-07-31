@@ -1,19 +1,19 @@
-import numpy as np
+import torch
 
 
 class LabelGuard:
     """Allows torchvision transformation to be called with an additional
     argument representing the image label."""
     def __init__(self, transform):
-        self. transform = transform
+        self.transform = transform
 
     def __call__(self, img, label):
         return self.transform(img), label
 
 
-class LabelToArray:
+class LabelToTensor:
     def __call__(self, img, label):
-        return img, np.array(float(label), dtype=np.float32)
+        return img, torch.tensor(int(label), dtype=torch.long)
 
 
 class Compose:
